@@ -137,6 +137,19 @@ find "$SITE_DIR" -type f -name "*.html" -exec sed -i '' "s|.css.gz|.css|g" {} \;
 find "$SITE_DIR" -type f -name "*.html" -exec sed -i '' "s|.js.gz|.js|g" {} \;
 
 ############################################
+# 🔹 HIDE WEBFLOW WATERMARK
+############################################
+echo "🖌️ Hiding Webflow watermark..."
+CUSTOM_CSS="${SITE_DIR}/hide-webflow-badge.css"
+echo ".w-webflow-badge { display: none !important; }" > "$CUSTOM_CSS"
+
+# Inject the CSS into all HTML files
+find "$SITE_DIR" -type f -name "*.html" | while read -r f; do
+  sed -i '' '/<\/head>/i \
+  <link rel="stylesheet" href="hide-webflow-badge.css">' "$f"
+done
+
+############################################
 # 🔹 CLEANUP EMPTY DIRS
 ############################################
 find . -type d -empty -delete 2>/dev/null || true
