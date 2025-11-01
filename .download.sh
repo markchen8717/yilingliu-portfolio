@@ -150,15 +150,6 @@ find "$SITE_DIR" -type f -name "*.html" | while read -r f; do
 done
 
 ############################################
-# 🔹 FIX RELATIVE PATHS (GO UP ONE LESS DIR)
-############################################
-echo "🧭 Fixing relative paths in HTML files (go up one less directory)..."
-find "$SITE_DIR" -type f -name "*.html" | while read -r f; do
-  # Only adjust href/src attributes that contain ../
-  sed -i '' -E 's|(href|src)="(\.\./)+|\1="|g' "$f"
-done
-
-############################################
 # 🔹 CLEANUP EMPTY DIRS
 ############################################
 find . -type d -empty -delete 2>/dev/null || true
